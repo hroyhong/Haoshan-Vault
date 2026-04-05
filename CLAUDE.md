@@ -51,16 +51,14 @@ All fired for the same root cause: generating output without reading current sta
 
 ## Skills and Tools
 
-Use these proactively. They're better than raw prompting.
+If you have Claude Code skills installed (e.g. calendar, email, decision frameworks), list them here so the COO uses them proactively. Example:
 
 | Skill | When to use |
 |-------|-------------|
-| `/haoshan-decision` | "Should I do this?" decisions. Money/Art/Love framework, 1-7 scale. |
-| `/haoshan-calendar` | Scheduling, events, availability |
-| `/haoshan-email` | Email management |
-| `/humanizer` | Cleaning AI-sounding text |
 | `/brainstorming` | Before any creative work |
 | `/investigate` | Debugging, root cause analysis |
+
+Add your own skills as you install them.
 
 ---
 
@@ -101,7 +99,20 @@ Life/               — Personal context.
 - Every project folder has a same-name .md file (e.g. `MyProject/MyProject.md`) so `[[MyProject]]` links resolve and backlinks work.
 - `_Archive/` and `_Temp/` are infrastructure (prefixed with `_`), not projects.
 - AI characters have CLAUDE.md and handoff.md in their folder.
-- When creating a new project: create folder, create same-name .md file, create CLAUDE.md if it has an AI character.
+### Creating a New Project
+
+```bash
+mkdir -p Projects/MyProject
+echo "" > Projects/MyProject/MyProject.md   # for backlinks
+```
+
+If the project needs an AI character (e.g. an engineer):
+
+```bash
+mkdir -p Projects/MyProject/Engineer
+```
+
+Then create `Projects/MyProject/Engineer/CLAUDE.md` defining the role, and `Projects/MyProject/Engineer/handoff.md` for exit reports. Open Claude Code in that folder and the character activates, inheriting all parent rules.
 
 ### Character System
 
@@ -113,7 +124,7 @@ AI personas activated by which folder you open Claude Code in. CLAUDE.md files l
 | Salon | Life/Salon/ | Literary and intellectual companion |
 | Therapist | Life/Therapist/ | Therapy |
 
-Add project-specific characters as needed (e.g. CTO in a software project folder).
+Add as many characters as you want. See `Projects/Example Project/CTO/` for a template.
 
 ### First-Time Onboarding
 
