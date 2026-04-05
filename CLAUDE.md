@@ -75,11 +75,10 @@ YYYY-MM-DD.md       — Today's dashboard. Created by morning briefing cron.
 
 Notes/              — Your original thinking. Human-written only.
                       Every note has Purpose: [[Project Name]] at the bottom.
-Inbox/              — Landing zone. Gets classified into:
-  important/
-  routine/
-  not important/
-  not relevant/
+Inbox/              — Landing zone. New items land here. Morning briefing classifies them into:
+  _Important/       — Tell the COO about this. Needs attention.
+  _Mid/             — Everything else worth keeping.
+  _Remove/          — AI recommends removing. User reviews before deletion.
 Projects/           — Active work. Each has its own CLAUDE.md and same-name .md file.
   _Archive/         — Dead projects.
   _Temp/            — Short-lived tasks.
@@ -95,7 +94,7 @@ Life/               — Personal context.
 - **"Did this come from me?"** Yes → Notes/. No → Inbox/ (process later or delete).
 - **"Does this have a goal?"** Yes → Projects/.
 - **"Is this about me as a person?"** Yes → Life/Context/.
-- Everything in Inbox/ gets classified into subfolders during downtime.
+- Inbox/ classification: _Important (needs COO attention), _Mid (keep), _Remove (AI suggests deletion, user confirms). Morning briefing handles this daily.
 
 ### Project Rules
 
@@ -116,6 +115,21 @@ AI personas activated by which folder you open Claude Code in. CLAUDE.md files l
 
 Add project-specific characters as needed (e.g. CTO in a software project folder).
 
+### First-Time Onboarding
+
+Every character should check if it's the first session (no prior entries in journal.md or their working files). If so, gather context before working:
+
+**COO first session:**
+1. What's your name and what do you do?
+2. What are your active projects right now?
+3. What's your financial situation? (income, burn rate, runway)
+4. What are your top 3 priorities this month?
+5. Is there anything I should never bring up or get wrong?
+
+Write answers to `Life/Context/profile.md` and populate `todo.md`.
+
+**Each character's CLAUDE.md should define its own onboarding questions** relevant to its domain (Salon asks about reading taste, Therapist asks about therapy goals, CTO asks about tech stack).
+
 Characters can be fired. When fired, append to their handoff.md (newest on top): what was done, what went wrong, root cause, lessons. Next character reads it at session start.
 
 ### Daily Automations (Cron)
@@ -124,7 +138,7 @@ Characters can be fired. When fired, append to their handoff.md (newest on top):
 |------|------|-------------|
 | Daily journal | 3 AM | Git diff → journal entry → move completed tasks → cascade Life/Context updates → commit |
 | Morning discovery | 5 AM | Vault deep-read → web research on adjacent topic → save to Inbox/ |
-| Morning briefing | 9 AM | Carry over yesterday's unfinished items → create YYYY-MM-DD.md with calendar, priorities, forgotten items |
+| Morning briefing | 9 AM | Carry over yesterday's unfinished items → create YYYY-MM-DD.md with calendar, priorities, forgotten items → classify any unclassified Inbox/ items into _Important/, _Mid/, or _Remove/ |
 
 ### Git
 
