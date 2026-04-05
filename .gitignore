@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Obsidian internals
+.obsidian/plugins/*/main.js
+.obsidian/plugins/*/styles.css
+.obsidian/plugins/*/*.wasm
+.obsidian/icons/
+.obsidian/workspace.json
+.obsidian/copilot-index-*.json
+
+# Claude Code
+.claude/
+.mcp.json
+.claude-design/
+
+# Trash
+.trash/
+
+# Generated files
+*.pdf
+*.html
