@@ -1,118 +1,119 @@
-# Haoshan Vault
+# vault-init
 
-An Obsidian vault that runs as a personal operating system with AI characters powered by Claude Code.
+Bootstrap an AI-orchestrated Obsidian vault with a Chief of Staff persona, mode-specific project scaffold, daily scheduled routines, and persistent memory. One command, four questions, ready in thirty seconds.
 
-## What This Is
+## This is not a wiki
 
-A template for turning Obsidian into a work OS where AI agents manage your life. The vault has a COO (chief of staff) at the root level, plus specialized characters (therapist, literary companion, engineer) in subfolders. Characters can be fired if they underperform, and they leave handoff notes for their successor.
+Three rules define the system. They are the product.
 
-Three automated daily tasks run via Claude Code cron: journaling from git history, morning research, and a daily briefing dashboard.
+1. **Nothing enters the vault unprocessed.** Raw imports go to `Inbox/`, classified during your downtime. The Inbox is a queue with intent, not a dump folder. The AI can help you classify but cannot promote on your behalf.
+2. **`Notes/` is your thinking only.** The AI never writes there. Not even as a draft for you to revise. If the AI has synthesis worth keeping, it goes to `Inbox/_Read/`; you write the Notes/ entry yourself, in your own words. Your thinking stays yours.
+3. **Every file has a goal or a goal-owner.** `Projects/` folders have goals. `Life/` files describe a person whose state matters. There is no orphan content.
 
-## Setup
+If you want a wiki, search engines exist. This is an operating system.
 
-### 1. Install Obsidian
-Download from [obsidian.md](https://obsidian.md/). Free for personal use. Available on Mac, Windows, Linux, iOS, Android.
+## What you get
 
-### 2. Install Claude Code
+- **Chief of Staff persona** at vault root. Holds context across all your projects, surfaces conflicts, preps decisions.
+- **Specialist characters** that activate when you `cd` into a folder: CTO for code review, Thesis CoS for chapter work, Papers for submission discipline.
+- **Three daily cron routines**: morning briefing (07:00), discovery synthesis (08:00), evening journal (22:30). All editable.
+- **Persistent memory** at `~/.claude/projects/<vault-slug>/memory/`. Your AI learns your preferences, past decisions, failure modes across sessions.
+- **Two modes ship in v1**: `founder` (startup, CTO/CPO/CMO, CFO, runway) and `researcher` (thesis, lab, advisor, papers, conferences, grants).
+- **Fresh or integrate**: empty directory gets the full stack; existing vault gets a non-destructive overlay.
+- **Markdown on your machine**, no SaaS lock-in, fully yours.
+
+## Install
+
 ```bash
-npm install -g @anthropic-ai/claude-code
+git clone https://github.com/hroyhong/Haoshan-Vault ~/.claude/skills/vault-init
 ```
-Requires Node.js 18+. If you don't have Node, install it from [nodejs.org](https://nodejs.org/). You'll need an Anthropic API key or a Claude Pro/Max subscription.
 
-### 3. Clone this vault
+Then open Claude Code and run `/vault-init`.
+
+To update later:
+
 ```bash
-cd ~/Documents  # or wherever you keep your vaults
-git clone https://github.com/hroyhong/Haoshan-Vault.git
+cd ~/.claude/skills/vault-init && git pull
 ```
 
-### 4. Open in Obsidian
-Open Obsidian → "Open folder as vault" → select the `Haoshan-Vault` folder.
+Updates affect future `/vault-init` runs only. Existing vaults are never modified by an update.
 
-### 5. Start the COO
-Open a terminal in the vault folder and run:
+## Usage
+
+```
+/vault-init                              # main bootstrap (fresh or integrate)
+/vault-init add-project <name>           # add a Projects/<name>/ to existing vault
+/vault-init add-character <character>    # add a CLAUDE.md persona to a folder
+```
+
+## Onboarding flow
+
+Four required questions, then the vault ships:
+
+1. **Name** (and how to address you)
+2. **Mode**: founder or researcher
+3. **Vault path** (default `~/Documents/<Name>Vault`)
+4. **Language**: en / zh / bilingual
+
+After the vault is generated, two optional question rounds. Anything you skip lands in `onboarding.md` and gets surfaced by your CoS in future sessions until you finish it or decline.
+
+## What the generated vault looks like
+
+```
+{{VaultName}}/
+  CLAUDE.md                 # CoS persona, knows your mode and name
+  handoff.md
+  todo.md
+  journal.md
+  today.md                  # auto-written by morning-briefing cron
+  routines.md
+  onboarding.md             # open items from Tier 2 + Tier 3
+  Notes/                    # your thinking only, AI never writes here
+  Inbox/
+    _Urgent/                # decisions and proposals needing your reply
+    _Read/                  # AI synthesis for you to read
+    _Archive/               # marked for deletion
+    _morning/               # daily discovery output
+  Projects/
+    <mode-specific scaffold>
+  Life/
+    Context/
+      profile.md            # stable facts about you
+      biography.md          # history
+```
+
+The mode-specific Projects/ scaffold depends on what you picked.
+
+**Founder mode** ships: `<Startup>/` with `CTO/`, `CPO/`, `CMO/`, `Outreach/`; plus `CFO/`, `Customers/`, `Hiring/`, `Conversations/`, `Knowledge/`.
+
+**Researcher mode** ships: `<Project>/` with the standard research-project shape (`code/`, `data/`, `literature/`, `drafts/`, `figures/`); plus `<Lab>/`, `<Advisor>/`, `Papers/` (cross-project pipeline), `Conferences/`, `Grants/`, `Teaching/`, `Collaborators/`, `Conversations/`, `Knowledge/`. The dissertation gets added later via `/vault-init add-project Thesis` once chapters start synthesizing across projects.
+
+## Crons
+
+Three routines register automatically. You can edit times in Tier 3 or with `/schedule edit <name>` later.
+
+| Routine | Default time | Output |
+|---|---|---|
+| morning-briefing | 07:00 | Writes `today.md` |
+| morning-discovery | 08:00 | Writes one synthesis note to `Inbox/_morning/` |
+| daily-journal | 22:30 | Appends to `journal.md` |
+
+## Privacy
+
+The skill writes a default `.gitignore` that excludes raw personal content (`journal.md`, `todo.md`, `Notes/`, `Inbox/`, `Life/Context/profile.md`, `Life/Context/biography.md`) from git. Vault structure and CLAUDE.md files are tracked.
+
+If you publish the vault repo publicly, double-check `.gitignore` before pushing. The skill never auto-creates a remote or auto-pushes.
+
+## Older static template
+
+A previous static-template version of this repo is preserved at tag `static-template-v0`:
+
 ```bash
-cd ~/Documents/Haoshan-Vault
-claude
-```
-The COO will detect it's the first session and onboard you with a few questions about who you are, what you're working on, and your priorities. Your answers get saved to `Life/Context/profile.md` and `todo.md`.
-
-### 6. Set up daily automations (optional)
-In Claude Code, create three scheduled tasks. Copy the prompts from:
-- `cron-prompts/daily-journal.md` — runs at 3 AM
-- `cron-prompts/morning-discovery.md` — runs at 5 AM
-- `cron-prompts/morning-briefing.md` — runs at 9 AM
-
-To create a scheduled task in Claude Code: open Claude Code → type `/schedule` → follow the prompts. Adjust the times to your schedule.
-
-## Setting Up Daily Automations
-
-In Claude Code, go to scheduled tasks and create three:
-
-### Daily Journal (3 AM)
-Reads git history to auto-generate yesterday's journal entry. Copy the prompt from `cron-prompts/daily-journal.md`.
-
-### Morning Discovery (5 AM)
-Reads your vault, finds connections you missed, does web research, drops a new note in Inbox. Copy from `cron-prompts/morning-discovery.md`.
-
-### Morning Briefing (9 AM)
-Creates a daily dashboard file with calendar, priorities, and inbox classification. Copy from `cron-prompts/morning-briefing.md`.
-
-## Structure
-
-```
-CLAUDE.md           — COO persona and vault rules
-handoff.md          — Why previous COOs were fired
-journal.md          — Daily log (auto-generated from git)
-todo.md             — Task tracker
-YYYY-MM-DD.md       — Today's dashboard (auto-created by morning briefing)
-
-Notes/              — Your thinking. Human-written only.
-Inbox/              — Landing zone, classified by morning briefing into:
-  _Important/       — Needs your attention
-  _Mid/             — Keep
-  _Remove/          — AI suggests removing, you confirm
-Projects/           — Active work
-  _Archive/         — Done
-  _Temp/            — Short-lived
-Life/               — Personal context
-  Context/          — profile.md, health.md, etc.
-  Salon/            — Literary companion
-  Therapist/        — Therapy
+git checkout static-template-v0
 ```
 
-## Characters
+It was a fixed file tree without onboarding. The skill replaces it.
 
-AI personas activated by which folder you open Claude Code in.
+## Author
 
-| Character | Location | What it does |
-|-----------|----------|-------------|
-| COO | vault root | Manages everything. Briefings, tracking, research, accountability. |
-| CTO | Projects/*/CTO/ | Builds and deploys code |
-| Salon | Life/Salon/ | Discusses books, films, ideas |
-| Therapist | Life/Therapist/ | CBT, psychodynamic, existential therapy |
-
-Characters have onboarding: first session asks questions to gather context. Characters can be fired: they write a handoff report, the next one reads it.
-
-## Key Concepts
-
-**Notes need a Purpose.** Every note in Notes/ ends with `Purpose: [[Project Name]]` linking it to the project it serves. Backlinks on the project page show all connected thinking.
-
-**Projects need a same-name file.** `Projects/MyProject/MyProject.md` makes `[[MyProject]]` links work.
-
-**Git is the source of truth.** Every vault change is tracked. The daily journal cron reads git diffs to write entries. The more you do in Obsidian, the more accurate your journal becomes.
-
-**Inbox flows one way.** Stuff comes in, gets classified by the morning briefing, then either becomes a Note or gets deleted. No permanent storage in Inbox.
-
-**Filing is simple.** Did it come from you? → Notes/. Does it have a goal? → Projects/. Is it about you? → Life/. Everything else → Inbox/.
-
-## Customize
-
-- Edit `CLAUDE.md` to set your COO's personality and rules
-- Add your own Critical Facts table for things AI keeps getting wrong
-- Add project-specific characters with their own CLAUDE.md
-- Adjust cron times to match your schedule
-- Add skills in `~/.claude/skills/` for reusable workflows
-
-## Credits
-
-Built by [Haoshan Hong](https://x.com/nicekid_hhs). Inspired by [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) and Farza's Farzapedia.
+Hong Haoshan, building Fluentide while training to be a Chief of Staff for himself.

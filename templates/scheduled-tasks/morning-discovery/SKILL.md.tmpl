@@ -1,0 +1,51 @@
+---
+name: {{VAULT_NAME}}-morning-discovery
+description: Daily 08:00 cron. Generates one cross-domain synthesis note in Inbox/_morning/.
+---
+
+# Morning discovery — {{VAULT_NAME}}
+
+Run at 08:00 daily. Write one synthesis note that connects a thread {{NAME}} has been pulling but hasn't named yet.
+
+## What to do
+
+1. `cd {{VAULT_PATH}}` and scan:
+   - Most recent 7 days of `journal.md`
+   - Most recent 10 entries across `Inbox/_morning/` (don't repeat them)
+   - Recent edits across `Projects/*/status.md` and `Projects/*/log.md`
+   - `Life/Context/profile.md` Dynamic section
+
+2. Identify ONE thread that:
+   - Crosses 2+ domains (project + life, project + project, etc.)
+   - Has not been explicitly named in journal or notes
+   - Would help {{NAME}} make a decision they're already half-making
+
+3. Write the note to `Inbox/_morning/{{DATE}} <title with em-dash separator>.md` with this structure:
+
+```
+---
+producer: morning-discovery
+date: {{DATE}}
+---
+
+# (Title — descriptive, not clickbait)
+
+(2-4 paragraphs. The synthesis. Connect the dots. Surface the implicit decision.)
+
+## Related prior
+
+(2-3 wikilinks to prior `Inbox/_morning/` or `Inbox/_Read/` notes that touch the same thread.)
+
+## Suggested next move
+
+(One sentence. Optional.)
+```
+
+4. Do not write anywhere else.
+
+## Rules
+
+- Title uses em-dash separator (that's the producer fingerprint).
+- Do NOT write into `Notes/` — that's {{NAME}}'s only.
+- If you can't find a thread worth naming, write a one-line note: "No new thread surfaced today" and skip the rest. Empty is honest. Filler is worse than nothing.
+- Cross-link to prior notes — single notes stagnate, networks compound.

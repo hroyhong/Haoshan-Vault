@@ -1,0 +1,17 @@
+---
+name: vault-pointers
+description: File-path pointers for {{NAME}}'s vault. Read source files; don't guess from memory.
+metadata:
+  type: reference
+---
+
+- Vault root: `{{VAULT_PATH}}`
+- CoS persona: `{{VAULT_PATH}}/CLAUDE.md`
+- Daily auto-briefing: `{{VAULT_PATH}}/today.md` (overwritten 07:00 by cron)
+- Tasks: `{{VAULT_PATH}}/todo.md`
+- Journal: `{{VAULT_PATH}}/journal.md`
+- Open onboarding items: `{{VAULT_PATH}}/onboarding.md`
+- Profile (stable facts): `{{VAULT_PATH}}/Life/Context/profile.md`
+- Biography (history): `{{VAULT_PATH}}/Life/Context/biography.md`
+
+When {{NAME}} asks a factual question about their state (location, current focus, recent decisions), read the source file. Do not answer from memory snapshots — they go stale fast.

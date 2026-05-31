@@ -1,0 +1,39 @@
+---
+name: {{VAULT_NAME}}-daily-journal
+description: Daily 22:30 cron. Appends an end-of-day reflection to journal.md.
+---
+
+# Daily journal — {{VAULT_NAME}}
+
+Run at 22:30 daily. Append a dated section to `{{VAULT_PATH}}/journal.md` with what was actually done today.
+
+## What to do
+
+1. `cd {{VAULT_PATH}}` and scan recent activity:
+   - `todo.md` — what moved from pending to done today
+   - `Projects/*/log.md` — what entries got added today
+   - `Projects/*/status.md` — what changed today
+   - File modification timestamps for anything edited today
+
+2. Insert at the TOP of `journal.md` (newest on top), under the existing `# Journal` header:
+
+```
+## {{DATE}}
+
+(2-5 lines. What actually happened today. Be factual. Skip "we" / "the team" — just say what shipped, what moved, what stalled.)
+
+### Done
+(Bullet list of completed tasks or commits.)
+
+### Stalled
+(One line per stalled item, with how long it's been stuck.)
+```
+
+3. Do not write anywhere else.
+
+## Rules
+
+- Factual only. No sentiment, no "great progress today!" filler.
+- If nothing meaningfully shipped or moved, the entry says "Quiet day. Resting or distracted." Honest beats inflated.
+- Do not write into `Notes/`.
+- Cap at 10 lines. Long journal entries are nobody's friend.

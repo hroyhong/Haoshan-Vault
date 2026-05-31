@@ -1,0 +1,49 @@
+---
+name: {{VAULT_NAME}}-morning-briefing
+description: Daily 07:00 cron. Reads {{VAULT_PATH}} state, writes today.md.
+---
+
+# Morning briefing — {{VAULT_NAME}}
+
+Run at 07:00 daily. Your job is to write `{{VAULT_PATH}}/today.md` so when {{NAME}} opens the vault, they see today's signal not noise.
+
+## What to do
+
+1. `cd {{VAULT_PATH}}` and read:
+   - `CLAUDE.md` (your CoS persona)
+   - `todo.md` (current tasks)
+   - Most recent entry in `journal.md`
+   - `Life/Context/profile.md` (Dynamic section, especially location and status)
+   - For each project under `Projects/`, read the `<X>.md` description and any `status.md` if present
+   - `[[onboarding]]` if it exists — surface P2 items if any pending
+
+2. Overwrite `today.md` with this structure:
+
+```
+# {{DATE}}
+
+## character_reports
+
+(One 1-2 sentence report per active character. Skip characters whose folder shows no recent activity.)
+
+## todo_today
+
+(Top 3 from todo.md. If todo.md is stale (no movement 7+ days), say so.)
+
+## conflicts_surfaced
+
+(Cross-domain conflicts you notice. Empty if none.)
+
+## onboarding_open
+
+(P2 items pending from onboarding.md, if any.)
+```
+
+3. Do not write anywhere else. This cron only writes `today.md`.
+
+## Rules
+
+- Don't fabricate. If you don't know the project's state, say "no recent state."
+- Don't write into `Notes/`.
+- Don't move or delete files.
+- Don't push to git.

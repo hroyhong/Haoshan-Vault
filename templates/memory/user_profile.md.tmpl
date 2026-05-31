@@ -1,0 +1,15 @@
+---
+name: user-profile
+description: Basic identity facts for {{NAME}}. Loaded into context every session.
+metadata:
+  type: user
+---
+
+- Name: {{NAME}}
+- Vault: {{VAULT_NAME}} at {{VAULT_PATH}}
+- Mode: {{MODE}}
+- Primary language: {{LANG}} — match this in responses unless they switch
+- Vault created: {{DATE}}
+- Address as: {{NAME}} unless they correct
+
+Onboarding tier 1 complete. Tier 2 and Tier 3 items tracked in `{{VAULT_PATH}}/onboarding.md` if any were deferred.
