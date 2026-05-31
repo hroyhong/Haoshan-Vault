@@ -168,8 +168,8 @@ Two markers define a folder's role.
 | Markers present | Folder is |
 |---|---|
 | `<X>/<X>.md` only | Pure project, no AI persona (e.g. `Conversations/`) |
-| `<X>/CLAUDE.md` only | Pure character, sub-domain of parent (e.g. `Fluentide/CTO/`) |
-| Both | Orchestrated project (e.g. `Fluentide/Fluentide.md` + `Fluentide/CLAUDE.md`) |
+| `<X>/CLAUDE.md` only | Pure character, sub-domain of parent (e.g. `<Startup>/CTO/`) |
+| Both | Orchestrated project (e.g. `<Startup>/<Startup>.md` + `<Startup>/CLAUDE.md`) |
 | Neither | Not a project, just storage (e.g. `Notes/`, `Inbox/`) |
 
 The skill bakes this rule into the generated tree. Sub-folders are deliberately split: `CTO/` gets `CLAUDE.md`, `CPO/` does not.
@@ -427,4 +427,4 @@ The v1 skill is done when:
 
 - Template syntax: `{{NAME}}` mustache-style is simplest but conflicts with literal `{{` in markdown. Alternative: `<<NAME>>` or `$NAME`. Mustache-style chosen for v1, escape with `\{{` if needed.
 - Should the skill detect existing `~/.claude/skills/vault-init` and refuse double-install or auto-update? v1 refuses with message.
-- Bilingual mode: do we generate two copies of every persona file, or one file with both languages inline? v1 inline (matches Haoshan's existing vault style).
+- Bilingual mode: do we generate two copies of every persona file, or one file with both languages inline? v1 inline (matches the reference vault style).
