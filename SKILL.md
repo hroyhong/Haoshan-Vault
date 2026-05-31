@@ -104,25 +104,74 @@ After confirmed write, proceed to Tier 2.
 
 ### Step 5 — Tier 2 questions (recommended, deferrable)
 
-Ask in one `AskUserQuestion` batch. Each option must have a "Skip for now" alternative.
+Print this intro BEFORE the AskUserQuestion batch:
 
-| Header | Question |
-|---|---|
-| `Main project` | Main project name? (Founder: startup name. Researcher: current research project / main paper line — not the dissertation, which gets added later.) Skip allowed. |
-| `Biography` | Paste 2-3 lines of biography to seed `biography.md`? Skip allowed. |
-| `Cadence` | Weekly review cadence? Options: Mon+Thu evenings, daily, weekly Sunday, skip. |
+```
+Tier 2 — three optional questions that make the vault useful from day one.
+Skip any to defer. Skipped items land in onboarding.md and your CoS will
+surface them in future sessions until done or declined.
+```
+
+Then ask in one `AskUserQuestion` batch. Each question must have a "Skip for now" option with a description of what gets deferred.
+
+**Question 1 — Main project**
+- Question text: "Main project name? Your project gets scaffolded with the right shape for {{MODE}} mode."
+- Options:
+  - For founder: "Startup name (e.g. Acme, Stripe)" — "Used to name `Projects/<your-startup>/` with CTO/CPO/CMO scaffold."
+  - For researcher: "Research project name (e.g. ProteinFolding)" — "Used to name `Projects/<your-project>/` with code/data/literature/drafts/figures scaffold. Your dissertation gets added later via `/haoshan-vault add-project Thesis`."
+  - "Skip for now" — "Placeholder `{{STARTUP}}` or `{{PROJECT}}` stays in the file tree until you fill in. Tracked in onboarding.md."
+
+**Question 2 — Biography**
+- Question text: "Paste 2-3 lines of biography to seed `Life/Context/biography.md`? Your CoS reads this for context on past decisions and patterns."
+- Options:
+  - "Paste it now" — opens freeform input
+  - "Skip for now" — "biography.md stays a stub. Tracked in onboarding.md."
+
+**Question 3 — Weekly review cadence**
+- Question text: "Pick a weekly review rhythm. This seeds `routines.md` so your CoS knows when to prompt for planning vs reflection."
+- Options:
+  - "Mon+Thu evenings" — "Monday set this week's one goal; Thursday cut what's not moving. Best for sprint-style work."
+  - "Weekly Sunday" — "Sunday plans the upcoming week. Best when weekends are reflection time."
+  - "Daily" — "Reflect every evening instead of weekly. Best for high-cadence work."
+  - "Skip for now" — "routines.md stays empty. Pick a cadence later when you've felt the gap."
 
 Apply answers in place (re-render relevant files) or write skipped items to `onboarding.md` (see Step 7).
 
 ### Step 6 — Tier 3 questions (optional, deferrable)
 
-Ask in one `AskUserQuestion` batch. Bias toward skipping.
+Print this intro BEFORE the AskUserQuestion batch:
 
-| Header | Question |
-|---|---|
-| `Sub-characters` | Add sub-characters to main project? (Founder: CTO, CPO, CMO. Researcher: just Thesis CoS by default.) multi-select. |
-| `Life chars` | Add Life characters beyond Context? Options: Health, Therapist, Salon, Lab, Style. multi-select. |
-| `Cron times` | Override default cron times? (07:00 briefing, 08:00 discovery, 22:30 journal) freeform or skip. |
+```
+Tier 3 — three fully optional questions. Bias toward skipping if anything
+feels unclear. You can always add later via /haoshan-vault add-character
+or /schedule edit.
+```
+
+Then ask in one `AskUserQuestion` batch.
+
+**Question 1 — Sub-characters for the main project**
+- Question text: "Add specialist AI characters to your main project? Each gets its own CLAUDE.md persona that activates when you `cd` into that folder."
+- Multi-select options:
+  - For founder: "CTO (codes, deploys)", "CPO (product workspace, human-only)", "CMO (marketing workspace, human-only)"
+  - For researcher: "Already included" (Thesis CoS at project root)
+  - "Skip all" — "No sub-characters. Add later via `/haoshan-vault add-character`."
+
+**Question 2 — Life characters**
+- Question text: "Add Life characters beyond Context? Each is a specialist AI you talk to by `cd`ing into its folder. Default vault ships Life/Context/ only (profile + biography). Want to scaffold any of these now?"
+- Multi-select options:
+  - "Health" — "Nutrition, training, sleep, recovery, full-body wellness."
+  - "Therapist" — "CBT/psychodynamic patterns work."
+  - "Salon" — "Literary + intellectual companion."
+  - "Lab" — "Science + technology companion."
+  - "Style" — "Wardrobe, fragrance, hair, overall image."
+  - "Skip all" — "Add later via `/haoshan-vault add-character` when you actually want one."
+
+**Question 3 — Cron times**
+- Question text: "The three daily routines run at 07:00 (briefing), 08:00 (discovery), 22:30 (journal). Override any time?"
+- Options:
+  - "Keep defaults" — "07:00 / 08:00 / 22:30."
+  - "Customize times" — "Provide new times in HH:MM 24-hour format for any of the three."
+  - "Skip for now" — "Defaults stay. You can edit anytime via `/schedule edit <name>`."
 
 ### Step 7 — Write onboarding.md
 
