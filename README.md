@@ -24,16 +24,18 @@ If you want a wiki, search engines exist. This is an operating system.
 
 ## Install
 
-```bash
-git clone https://github.com/hroyhong/Haoshan-Vault ~/.claude/skills/vault-init
+Open Claude Code and paste this:
+
+```
+! git clone https://github.com/hroyhong/Haoshan-Vault ~/.claude/skills/vault-init
 ```
 
-Then open Claude Code and run `/vault-init`.
+The `!` prefix runs the line as a shell command directly inside Claude Code, so you never leave the chat. When it finishes, run `/vault-init` and answer four questions.
 
-To update later:
+To update later, paste:
 
-```bash
-cd ~/.claude/skills/vault-init && git pull
+```
+! cd ~/.claude/skills/vault-init && git pull
 ```
 
 Updates affect future `/vault-init` runs only. Existing vaults are never modified by an update.

@@ -340,15 +340,23 @@ Without seeding, Claude Code creates the folder on first save anyway. Seeding pr
 
 ## Distribution and install
 
-The skill is distributed as a git repo.
+The skill is distributed as a git repo, but the install line is designed for paste-into-Claude-Code with the `!` shell prefix so the user never leaves the chat.
 
-```bash
-git clone https://github.com/hroyhong/Haoshan-Vault ~/.claude/skills/vault-init
+User pastes one line into Claude Code:
+
+```
+! git clone https://github.com/hroyhong/Haoshan-Vault ~/.claude/skills/vault-init
 ```
 
-After install, `/vault-init` becomes available in Claude Code. The repo replaces the older static template (preserved as tag `static-template-v0`).
+The `!` prefix tells Claude Code to run the rest as a shell command directly in the current session. After it finishes, `/vault-init` is registered and ready.
 
-To update: `cd ~/.claude/skills/vault-init && git pull`. Updates affect future `/vault-init` runs but never modify existing vaults. The skill writes once and the user owns the output.
+Update path:
+
+```
+! cd ~/.claude/skills/vault-init && git pull
+```
+
+The repo replaces the older static template (preserved as tag `static-template-v0`). Updates affect future `/vault-init` runs but never modify existing vaults. The skill writes once and the user owns the output.
 
 ## Incremental commands
 
