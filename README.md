@@ -24,11 +24,11 @@ If you want a wiki, search engines exist. This is an operating system.
 
 ## Install
 
-Open Claude Code anywhere and paste this:
+Open Claude Code and paste this in plain English:
 
 > Install the haoshan-vault skill from github.com/hroyhong/Haoshan-Vault into ~/.claude/skills/haoshan-vault, then run /haoshan-vault.
 
-Claude clones the repo, registers the skill, and starts the four-question onboarding. You never touch a terminal.
+Claude reads the request, clones the repo, registers the skill, and starts the four-question onboarding. You don't type a single shell command yourself — the AI handles it.
 
 To update later, paste:
 

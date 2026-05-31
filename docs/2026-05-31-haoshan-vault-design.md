@@ -346,7 +346,7 @@ User pastes:
 
 > Install the haoshan-vault skill from github.com/hroyhong/Haoshan-Vault into ~/.claude/skills/haoshan-vault, then run /haoshan-vault.
 
-Claude Code recognizes the install request, clones the repo, registers the skill, and starts the onboarding. The user has not seen a terminal, a shell prompt, or a git command.
+Claude Code recognizes the install request, clones the repo, registers the skill, and starts the onboarding. The user has not typed a shell command, a git command, or a file path themselves.
 
 Update path is the same shape:
 
