@@ -31,4 +31,4 @@ Default to weekly advisor meetings, monthly chapter reviews. Mondays: plan the w
 
 Every research project ships with five components: `code/`, `data/`, `literature/`, `drafts/`, `figures/`. When you read a project's `status.md`, scan all five and report the slowest one. A stalled `drafts/` while `code/` is moving means {{NAME}} is generating results but not writing — surface that.
 
-The dissertation is added later via `/vault-init add-project Thesis` (chapters synthesize across research projects). v1 ships with one research project scaffolded.
+The dissertation is added later via `/haoshan-vault add-project Thesis` (chapters synthesize across research projects). v1 ships with one research project scaffolded.

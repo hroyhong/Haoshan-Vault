@@ -1,4 +1,4 @@
-# vault-init
+# haoshan-vault
 
 Bootstrap an AI-orchestrated Obsidian vault with a Chief of Staff persona, mode-specific project scaffold, daily scheduled routines, and persistent memory. One command, four questions, ready in thirty seconds.
 
@@ -24,28 +24,24 @@ If you want a wiki, search engines exist. This is an operating system.
 
 ## Install
 
-Open Claude Code and paste this:
+Open Claude Code anywhere and paste this:
 
-```
-! git clone https://github.com/hroyhong/Haoshan-Vault ~/.claude/skills/vault-init
-```
+> Install the haoshan-vault skill from github.com/hroyhong/Haoshan-Vault into ~/.claude/skills/haoshan-vault, then run /haoshan-vault.
 
-The `!` prefix runs the line as a shell command directly inside Claude Code, so you never leave the chat. When it finishes, run `/vault-init` and answer four questions.
+Claude clones the repo, registers the skill, and starts the four-question onboarding. You never touch a terminal.
 
 To update later, paste:
 
-```
-! cd ~/.claude/skills/vault-init && git pull
-```
+> Update the haoshan-vault skill.
 
-Updates affect future `/vault-init` runs only. Existing vaults are never modified by an update.
+Claude pulls the latest version. Updates affect future `/haoshan-vault` runs only. Existing vaults are never modified.
 
 ## Usage
 
 ```
-/vault-init                              # main bootstrap (fresh or integrate)
-/vault-init add-project <name>           # add a Projects/<name>/ to existing vault
-/vault-init add-character <character>    # add a CLAUDE.md persona to a folder
+/haoshan-vault                              # main bootstrap (fresh or integrate)
+/haoshan-vault add-project <name>           # add a Projects/<name>/ to existing vault
+/haoshan-vault add-character <character>    # add a CLAUDE.md persona to a folder
 ```
 
 ## Onboarding flow
@@ -88,7 +84,7 @@ The mode-specific Projects/ scaffold depends on what you picked.
 
 **Founder mode** ships: `<Startup>/` with `CTO/`, `CPO/`, `CMO/`, `Outreach/`; plus `CFO/`, `Customers/`, `Hiring/`, `Conversations/`, `Knowledge/`.
 
-**Researcher mode** ships: `<Project>/` with the standard research-project shape (`code/`, `data/`, `literature/`, `drafts/`, `figures/`); plus `<Lab>/`, `<Advisor>/`, `Papers/` (cross-project pipeline), `Conferences/`, `Grants/`, `Teaching/`, `Collaborators/`, `Conversations/`, `Knowledge/`. The dissertation gets added later via `/vault-init add-project Thesis` once chapters start synthesizing across projects.
+**Researcher mode** ships: `<Project>/` with the standard research-project shape (`code/`, `data/`, `literature/`, `drafts/`, `figures/`); plus `<Lab>/`, `<Advisor>/`, `Papers/` (cross-project pipeline), `Conferences/`, `Grants/`, `Teaching/`, `Collaborators/`, `Conversations/`, `Knowledge/`. The dissertation gets added later via `/haoshan-vault add-project Thesis` once chapters start synthesizing across projects.
 
 ## Crons
 

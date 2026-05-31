@@ -5,11 +5,11 @@ author: Hong Haoshan + CoS
 supersedes: static template repo (tagged static-template-v0)
 ---
 
-# vault-init: a skill that bootstraps an AI-orchestrated personal operating system
+# haoshan-vault: a skill that bootstraps an AI-orchestrated personal operating system
 
 ## TL;DR
 
-`vault-init` is a Claude Code skill. Run it once, answer four questions, get an Obsidian vault wired with a Chief of Staff persona, mode-specific project scaffold, scheduled daily routines, and persistent memory. Mode-specific personas ship for founders and researchers in v1. Anything you defer during onboarding gets tracked in `onboarding.md` and surfaced by CoS until done or declined.
+`haoshan-vault` is a Claude Code skill. Run it once, answer four questions, get an Obsidian vault wired with a Chief of Staff persona, mode-specific project scaffold, scheduled daily routines, and persistent memory. Mode-specific personas ship for founders and researchers in v1. Anything you defer during onboarding gets tracked in `onboarding.md` and surfaced by CoS until done or declined.
 
 The skill replaces the older static-template approach at `github.com/hroyhong/Haoshan-Vault` (preserved as tag `static-template-v0`).
 
@@ -33,10 +33,10 @@ These three rules turn a folder tree into an operating system. Skip them and you
 
 ## What the user gets
 
-When the user runs `/vault-init`, the skill prints a pitch:
+When the user runs `/haoshan-vault`, the skill prints a pitch:
 
 ```
-vault-init builds you an AI operating system for life + work.
+haoshan-vault builds you an AI operating system for life + work.
 
 This is not a wiki. Three rules:
   1. Nothing enters the vault unprocessed. Raw imports go to Inbox/,
@@ -61,11 +61,11 @@ Then four required questions, then the vault ships.
 ### Skill layout on disk
 
 ```
-~/.claude/skills/vault-init/
-  SKILL.md                       # The prompt Claude follows on /vault-init
+~/.claude/skills/haoshan-vault/
+  SKILL.md                       # The prompt Claude follows on /haoshan-vault
   README.md                      # Install + usage instructions
   docs/
-    2026-05-31-vault-init-design.md   # this file
+    2026-05-31-haoshan-vault-design.md   # this file
   templates/
     common/                      # Shared across modes
       CLAUDE.md.tmpl             # Root CoS persona, {{MODE_BLOCK}} placeholder
@@ -296,7 +296,7 @@ Mark [~] DECLINED <date> when user says skip.
 When all items resolved, move onboarding.md to Inbox/_Archive/ and delete this block.
 ```
 
-This single mechanism also handles "add later" decisions. Three weeks after a deferred CTO add, CoS still surfaces it. The user can then run `/vault-init add-character CTO` as an incremental command.
+This single mechanism also handles "add later" decisions. Three weeks after a deferred CTO add, CoS still surfaces it. The user can then run `/haoshan-vault add-character CTO` as an incremental command.
 
 ## Routines
 
@@ -340,23 +340,21 @@ Without seeding, Claude Code creates the folder on first save anyway. Seeding pr
 
 ## Distribution and install
 
-The skill is distributed as a git repo, but the install line is designed for paste-into-Claude-Code with the `!` shell prefix so the user never leaves the chat.
+The skill is distributed as a git repo, but the user never runs git themselves. They paste a plain-English instruction into Claude Code and the AI handles the install.
 
-User pastes one line into Claude Code:
+User pastes:
 
-```
-! git clone https://github.com/hroyhong/Haoshan-Vault ~/.claude/skills/vault-init
-```
+> Install the haoshan-vault skill from github.com/hroyhong/Haoshan-Vault into ~/.claude/skills/haoshan-vault, then run /haoshan-vault.
 
-The `!` prefix tells Claude Code to run the rest as a shell command directly in the current session. After it finishes, `/vault-init` is registered and ready.
+Claude Code recognizes the install request, clones the repo, registers the skill, and starts the onboarding. The user has not seen a terminal, a shell prompt, or a git command.
 
-Update path:
+Update path is the same shape:
 
-```
-! cd ~/.claude/skills/vault-init && git pull
-```
+> Update the haoshan-vault skill.
 
-The repo replaces the older static template (preserved as tag `static-template-v0`). Updates affect future `/vault-init` runs but never modify existing vaults. The skill writes once and the user owns the output.
+Claude pulls the latest version.
+
+This is the design principle of the whole system: everything is done with AI, not commandline. The README, the install, the onboarding, the daily routines all happen in conversation. The repo replaces the older static template (preserved as tag `static-template-v0`). Updates affect future `/haoshan-vault` runs but never modify existing vaults. The skill writes once and the user owns the output.
 
 ## Incremental commands
 
@@ -364,9 +362,9 @@ v1 ships three sub-commands beyond the main flow.
 
 | Command | Purpose |
 |---|---|
-| `/vault-init` | Main bootstrap (fresh or integrate) |
-| `/vault-init add-project <name>` | Add a Projects/<name>/ scaffold inside existing vault |
-| `/vault-init add-character <name>` | Add a CLAUDE.md persona to an existing folder |
+| `/haoshan-vault` | Main bootstrap (fresh or integrate) |
+| `/haoshan-vault add-project <name>` | Add a Projects/<name>/ scaffold inside existing vault |
+| `/haoshan-vault add-character <name>` | Add a CLAUDE.md persona to an existing folder |
 
 `add-mode` is deferred to v2. Users who need a non-shipped mode edit their own root CLAUDE.md.
 
@@ -423,10 +421,10 @@ The skill does not auto-push or auto-create a remote. The user controls when and
 
 The v1 skill is done when:
 
-1. Running `/vault-init` in an empty directory produces a working vault with personalized CoS persona, generated Projects/ scaffold, seeded MEMORY.md, registered crons, first git commit.
-2. Running `/vault-init` in a directory with `.obsidian/` enters integrate mode, prints the two confirmation screens, and respects all skip-existing-files rules.
+1. Running `/haoshan-vault` in an empty directory produces a working vault with personalized CoS persona, generated Projects/ scaffold, seeded MEMORY.md, registered crons, first git commit.
+2. Running `/haoshan-vault` in a directory with `.obsidian/` enters integrate mode, prints the two confirmation screens, and respects all skip-existing-files rules.
 3. Deferring all Tier 2 + Tier 3 items results in a complete `onboarding.md` and a CoS block in root CLAUDE.md that surfaces those items.
-4. Running `/vault-init add-character CTO` inside the main project folder creates `<project>/CTO/CLAUDE.md` and updates root CLAUDE.md character table.
+4. Running `/haoshan-vault add-character CTO` inside the main project folder creates `<project>/CTO/CLAUDE.md` and updates root CLAUDE.md character table.
 5. `.gitignore` is written and the privacy notice prints at end of onboarding.
 6. The skill repo at `github.com/hroyhong/Haoshan-Vault` install instructions work end-to-end from a fresh machine.
 7. **The three core values are visible in three places:** repo README (so visitors see them before installing), the onboarding pitch (so the user reads them before the first question), and the generated root CLAUDE.md (so CoS enforces them every session). The generated root CLAUDE.md contains explicit rules: `Notes/` is human-only, `Inbox/` requires explicit classification before promotion, no orphan content.
@@ -434,5 +432,5 @@ The v1 skill is done when:
 ## Open questions for implementation
 
 - Template syntax: `{{NAME}}` mustache-style is simplest but conflicts with literal `{{` in markdown. Alternative: `<<NAME>>` or `$NAME`. Mustache-style chosen for v1, escape with `\{{` if needed.
-- Should the skill detect existing `~/.claude/skills/vault-init` and refuse double-install or auto-update? v1 refuses with message.
+- Should the skill detect existing `~/.claude/skills/haoshan-vault` and refuse double-install or auto-update? v1 refuses with message.
 - Bilingual mode: do we generate two copies of every persona file, or one file with both languages inline? v1 inline (matches the reference vault style).

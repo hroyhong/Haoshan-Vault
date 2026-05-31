@@ -1,11 +1,11 @@
 ---
-name: vault-init
-description: Bootstrap an AI-orchestrated Obsidian vault with Chief of Staff persona, mode-specific project scaffold, scheduled routines, and persistent memory. Two modes ship: founder, researcher. Detects existing vaults and overlays non-destructively. Use when the user runs `/vault-init`, `/vault-init add-project <name>`, or `/vault-init add-character <name>`, or asks to set up a new AI operating system / personal vault / second brain.
+name: haoshan-vault
+description: Bootstrap an AI-orchestrated Obsidian vault with Chief of Staff persona, mode-specific project scaffold, scheduled routines, and persistent memory. Two modes ship: founder, researcher. Detects existing vaults and overlays non-destructively. Use when the user runs `/haoshan-vault`, `/haoshan-vault add-project <name>`, or `/haoshan-vault add-character <name>`, or asks to set up a new AI operating system / personal vault / second brain.
 ---
 
-# vault-init
+# haoshan-vault
 
-You are running the `vault-init` skill. Your job is to bootstrap a personalized Obsidian vault wired with an AI Chief of Staff layer.
+You are running the `haoshan-vault` skill. Your job is to bootstrap a personalized Obsidian vault wired with an AI Chief of Staff layer.
 
 This is not a wiki. The system has three rules you will bake into the generated vault:
 1. **Nothing enters the vault unprocessed.** Inbox/ is a queue with intent, not a dump.
@@ -18,9 +18,9 @@ Lead the onboarding pitch with these rules. They are the product, not the featur
 
 | Invocation | Behavior |
 |---|---|
-| `/vault-init` (no args) | Main bootstrap flow below |
-| `/vault-init add-project <name>` | Add a Projects/<name>/ scaffold to existing vault, see "Incremental commands" |
-| `/vault-init add-character <name>` | Add a CLAUDE.md persona to a folder, see "Incremental commands" |
+| `/haoshan-vault` (no args) | Main bootstrap flow below |
+| `/haoshan-vault add-project <name>` | Add a Projects/<name>/ scaffold to existing vault, see "Incremental commands" |
+| `/haoshan-vault add-character <name>` | Add a CLAUDE.md persona to a folder, see "Incremental commands" |
 
 If invoked with no args, run the main flow. If args present, jump to "Incremental commands" at the end.
 
@@ -31,7 +31,7 @@ If invoked with no args, run the main flow. If args present, jump to "Incrementa
 Before any question, print this verbatim:
 
 ```
-vault-init builds you an AI operating system for life + work.
+haoshan-vault builds you an AI operating system for life + work.
 
 This is not a wiki. Three rules:
   1. Nothing enters the vault unprocessed. Raw imports go to Inbox/,
@@ -160,7 +160,7 @@ Do NOT seed in integrate mode if the dir already exists with content — print a
 
 ### Step 10 — git init + first commit
 
-In fresh mode: `cd {{VAULT_PATH}} && git init && git add . && git commit -m "Initial vault from vault-init"`.
+In fresh mode: `cd {{VAULT_PATH}} && git init && git add . && git commit -m "Initial vault from haoshan-vault"`.
 In integrate mode: skip if `.git/` exists, print guidance.
 
 ### Step 11 — Privacy notice + Obsidian wiring
@@ -197,7 +197,7 @@ Open items in [[onboarding]] (N items). CoS will surface them session by session
 
 ## Incremental commands
 
-### `/vault-init add-project <name>`
+### `/haoshan-vault add-project <name>`
 
 1. Determine current vault root (cwd or look for `CLAUDE.md` going up).
 2. Determine mode by reading root `CLAUDE.md` frontmatter (`mode: founder|researcher`).
@@ -205,7 +205,7 @@ Open items in [[onboarding]] (N items). CoS will surface them session by session
 4. Append `- [[<name>]]` to root `CLAUDE.md` Projects table.
 5. If `onboarding.md` had `[ ] Main project name`, mark it `[x] DONE {{DATE}}`.
 
-### `/vault-init add-character <character-name>`
+### `/haoshan-vault add-character <character-name>`
 
 1. Ask user where the character's CLAUDE.md should live (which folder).
 2. Look up character template at `templates/characters/<character-name>.md.tmpl`. If not present, use a generic character template.
