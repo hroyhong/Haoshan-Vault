@@ -179,21 +179,77 @@ For every Tier 2 / Tier 3 item that was skipped, append a `- [ ]` line under the
 
 The generated root `CLAUDE.md` already contains a block referencing `[[onboarding]]`. CoS will surface items session by session.
 
-### Step 8 — Register cron routines
+### Step 8 — Register daily routines
 
-Use `CronCreate` three times. Schedule defaults (override from Tier 3 if user provided):
+This is the load-bearing step for the whole product. The routines must actually fire daily on the user's machine, not just inside a Claude Code session. Do not use `CronCreate` — those jobs are session-only or environment-restricted and will silently disappear. Use OS-level scheduling.
+
+**Platform detection.** Run `uname -s` to detect platform.
+
+- `Darwin` → macOS → use launchd (full support, instructions below)
+- `Linux` → Linux → use crontab (full support, instructions below)
+- Anything else → print a clear "your platform isn't auto-supported yet, here is the manual install" message with the rendered prompt files and skip the auto-registration
+
+**Per-task setup (do this for each of the three routines):**
+
+For each routine `<task>` in (`morning-briefing`, `morning-discovery`, `daily-journal`):
+
+1. **Render the prompt to disk.** Read `~/.claude/skills/haoshan-vault/templates/scheduled-tasks/<task>/SKILL.md.tmpl`, substitute placeholders, write to `{{VAULT_PATH}}/.haoshan-vault/<task>.prompt.md`. Make sure `{{VAULT_PATH}}/.haoshan-vault/` exists first (it's a hidden dir holding routine state).
+
+2. **Determine the schedule.** Defaults are `morning-briefing` 07:00, `morning-discovery` 08:00, `daily-journal` 22:30. Override from Tier 3 if provided.
+
+3. **Write the platform-specific scheduler entry.**
+
+**macOS — launchd plist:**
+
+Write `~/Library/LaunchAgents/com.haoshan-vault.{{VAULT_NAME}}.<task>.plist`:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.haoshan-vault.{{VAULT_NAME}}.<task></string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-lc</string>
+    <string>claude --dangerously-skip-permissions -p &lt; "{{VAULT_PATH}}/.haoshan-vault/<task>.prompt.md" &gt;&gt; "{{VAULT_PATH}}/.haoshan-vault/<task>.log" 2&gt;&amp;1</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer><HOUR></integer>
+    <key>Minute</key>
+    <integer><MINUTE></integer>
+  </dict>
+</dict>
+</plist>
+```
+
+Substitute `<task>`, `<HOUR>`, `<MINUTE>` literally. Use `/bin/zsh -lc` (login shell) so the user's `PATH` resolves `claude` regardless of where it's installed.
+
+After writing each plist, activate:
 
 ```
-CronCreate({
-  name: "{{VAULT_NAME}}-morning-briefing",
-  schedule: "0 7 * * *",
-  prompt: contents of templates/scheduled-tasks/morning-briefing/SKILL.md.tmpl rendered with {{VAULT_PATH}}
-})
+launchctl load ~/Library/LaunchAgents/com.haoshan-vault.{{VAULT_NAME}}.<task>.plist
 ```
 
-Repeat for `morning-discovery` (`0 8 * * *`) and `daily-journal` (`30 22 * * *`).
+If `launchctl load` errors with "already loaded," unload first then load.
 
-If `CronCreate` errors with name collision in integrate mode, retry with `-2` suffix.
+**Linux — crontab entry:**
+
+Append three lines to the user's crontab via `(crontab -l 2>/dev/null; echo "<entry>") | crontab -`:
+
+```
+<MINUTE> <HOUR> * * * /bin/sh -lc 'claude --dangerously-skip-permissions -p < "{{VAULT_PATH}}/.haoshan-vault/<task>.prompt.md" >> "{{VAULT_PATH}}/.haoshan-vault/<task>.log" 2>&1'  # haoshan-vault {{VAULT_NAME}} <task>
+```
+
+The trailing `# haoshan-vault ...` comment is the marker for later detection (idempotency).
+
+**Idempotency.** Before writing each plist or crontab entry, check if one with the same label/marker already exists. If yes, skip and tell the user.
+
+**Failure handling.** If `launchctl load` or `crontab` errors, print the rendered plist/cronline content and tell the user to install it manually. Never leave the user with the impression routines are running when they aren't.
 
 ### Step 9 — Seed MEMORY.md
 
@@ -230,13 +286,23 @@ Open in Obsidian:
   2. "Open folder as vault"
   3. Select {{VAULT_PATH}}
 
-Routines scheduled:
-  07:00 {{VAULT_NAME}}-morning-briefing
-  08:00 {{VAULT_NAME}}-morning-discovery
-  22:30 {{VAULT_NAME}}-daily-journal
+Routines installed (macOS launchd / Linux cron):
+  07:00 com.haoshan-vault.{{VAULT_NAME}}.morning-briefing
+  08:00 com.haoshan-vault.{{VAULT_NAME}}.morning-discovery
+  22:30 com.haoshan-vault.{{VAULT_NAME}}.daily-journal
 
-To change: /schedule edit <name>
-To disable: /schedule delete <name>
+These fire `claude -p` as your user, billing against your Claude
+subscription (no API key needed). Logs land in {{VAULT_PATH}}/.haoshan-vault/<task>.log.
+
+macOS management:
+  List:    launchctl list | grep haoshan-vault
+  Disable: launchctl unload ~/Library/LaunchAgents/com.haoshan-vault.{{VAULT_NAME}}.<task>.plist
+  Re-enable: launchctl load ~/Library/LaunchAgents/com.haoshan-vault.{{VAULT_NAME}}.<task>.plist
+  Change time: edit the plist's StartCalendarInterval, then unload+load
+
+Linux management:
+  List:    crontab -l | grep haoshan-vault
+  Edit:    crontab -e (search for "# haoshan-vault {{VAULT_NAME}}")
 
 Next session: cd {{VAULT_PATH}} and start a fresh Claude Code conversation.
 Your CoS persona is ready at root CLAUDE.md.
